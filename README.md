@@ -47,5 +47,5 @@ Rails採用の場合はtrue、それ以外の場合はfalseになるのが一般
 ## インストール
 
 ```
-$ go install github.com/future-architect/a5er-dictionary/cmd@latest
+$ go install github.com/future-architect/a5er-dictionary/cmd/a5er-dictionary@latest
 ```
