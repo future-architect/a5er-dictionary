@@ -54,7 +54,7 @@ func TestLogical2Physical(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := Convertor{}
+			c := NewConvertor()
 			if got := c.Logical2Physical(tt.args.logicalName, tt.args.dict); got != tt.want {
 				t.Errorf("Logical2Physical() = %v, want %v", got, tt.want)
 			}
