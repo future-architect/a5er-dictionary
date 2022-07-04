@@ -45,6 +45,6 @@ func main() {
 	}
 
 	if err := a5er.Run(context.Background(), c); err != nil {
-		log.Fatal(err)
+		log.Fatalf("fail to execute: %v\n", err)
 	}
 }
