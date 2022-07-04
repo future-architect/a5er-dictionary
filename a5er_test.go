@@ -24,7 +24,7 @@ func TestField_String(t *testing.T) {
 				physicalName: `"a_i"`,
 				other:        `"*数値","NOT NULL",0,"","",$00FF0000,""`,
 			},
-			want: `"ああ","a_i","*数値","NOT NULL",0,"","",$00FF0000,""`,
+			want: `"あい","a_i","*数値","NOT NULL",0,"","",$00FF0000,""`,
 		},
 		{
 			name: "converted",
@@ -34,7 +34,7 @@ func TestField_String(t *testing.T) {
 				physicalName:          `"a_i"`,
 				other:                 `"*数値","NOT NULL",0,"","",$00FF0000,""`,
 			},
-			want: `"ああ","love","*数値","NOT NULL",0,"","",$00FF0000,""`,
+			want: `"あい","love","*数値","NOT NULL",0,"","",$00FF0000,""`,
 		},
 	}
 	for _, tt := range tests {

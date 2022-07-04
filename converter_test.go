@@ -41,7 +41,7 @@ func TestLogical2Physical(t *testing.T) {
 			args: args{logicalName: "あ", dict: &Dictionary{
 				{Key: "あい", Value: "love"},
 			}},
-			want: "",
+			want: "あ",
 		},
 		{
 			name: "一部マッチ",
@@ -49,7 +49,14 @@ func TestLogical2Physical(t *testing.T) {
 				{Key: "い", Value: "i"},
 				{Key: "う", Value: "u"},
 			}},
-			want: "i_u",
+			want: "あいう",
+		},
+		{
+			name: "一部マッチ",
+			args: args{logicalName: "あいう", dict: &Dictionary{
+				{Key: "い", Value: "i"},
+			}},
+			want: "あいう",
 		},
 	}
 	for _, tt := range tests {

@@ -17,6 +17,8 @@ func NewConvertor() *Convertor {
 func (c *Convertor) Logical2Physical(logicalName string, dict *Dictionary) string {
 	var converted []string
 	r := []rune(logicalName)
+	// マッチしない語句が複数ある場合は、カンマ区切りでそれぞれの単語を出力する
+	var misses []string
 	var miss []rune
 
 	for i := 0; i < len(r); {
@@ -32,6 +34,10 @@ func (c *Convertor) Logical2Physical(logicalName string, dict *Dictionary) strin
 				converted = append(converted, d.Value)
 				i += l
 				exists = true
+				if len(miss) > 0 {
+					misses = append(misses, string(miss))
+					miss = nil
+				}
 				break
 			}
 		}
@@ -43,8 +49,12 @@ func (c *Convertor) Logical2Physical(logicalName string, dict *Dictionary) strin
 	}
 
 	if len(miss) > 0 {
+		misses = append(misses, string(miss))
+	}
+
+	if len(misses) > 0 {
 		// 中途半端に物理名が設定されることを避けるために、変換に失敗した語句がある場合は物理名を設定しない
-		log.Printf("Fail to logical to physical [#%s]. remain [#%s]\n", logicalName, string(miss))
+		log.Printf("Fail to logical to physical [#%s]. remain [#%s]\n", logicalName, strings.Join(misses, ","))
 		c.missing[string(miss)] = struct{}{}
 		return logicalName
 	}
