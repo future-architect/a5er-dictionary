@@ -8,16 +8,18 @@ func TestLogical2Physical(t *testing.T) {
 		dict        *Dictionary
 	}
 	tests := []struct {
-		name string
-		args args
-		want string
+		name    string
+		args    args
+		want    string
+		want_ok bool
 	}{
 		{
 			name: "マッチする",
 			args: args{logicalName: "あ", dict: &Dictionary{
 				{Key: "あ", Value: "a"},
 			}},
-			want: "a",
+			want:    "a",
+			want_ok: true,
 		},
 		{
 			name: "マッチする 複数",
@@ -25,7 +27,8 @@ func TestLogical2Physical(t *testing.T) {
 				{Key: "あ", Value: "a"},
 				{Key: "い", Value: "i"},
 			}},
-			want: "a_i",
+			want:    "a_i",
+			want_ok: true,
 		},
 		{
 			name: "マッチする 複数",
@@ -34,14 +37,16 @@ func TestLogical2Physical(t *testing.T) {
 				{Key: "あ", Value: "a"},
 				{Key: "い", Value: "i"},
 			}},
-			want: "love",
+			want:    "love",
+			want_ok: true,
 		},
 		{
 			name: "マッチしない",
 			args: args{logicalName: "あ", dict: &Dictionary{
 				{Key: "あい", Value: "love"},
 			}},
-			want: "あ",
+			want:    "",
+			want_ok: false,
 		},
 		{
 			name: "一部マッチ",
@@ -49,20 +54,26 @@ func TestLogical2Physical(t *testing.T) {
 				{Key: "い", Value: "i"},
 				{Key: "う", Value: "u"},
 			}},
-			want: "あいう",
+			want:    "",
+			want_ok: false,
 		},
 		{
 			name: "一部マッチ",
 			args: args{logicalName: "あいう", dict: &Dictionary{
 				{Key: "い", Value: "i"},
 			}},
-			want: "あいう",
+			want:    "",
+			want_ok: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := NewConvertor()
-			if got := c.Logical2Physical(tt.args.logicalName, tt.args.dict); got != tt.want {
+			got, ok := c.Logical2Physical(tt.args.logicalName, tt.args.dict)
+			if ok != tt.want_ok {
+				t.Errorf("got %v, want %v", ok, tt.want_ok)
+			}
+			if got != tt.want {
 				t.Errorf("Logical2Physical() = %v, want %v", got, tt.want)
 			}
 		})

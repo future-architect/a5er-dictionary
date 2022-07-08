@@ -9,7 +9,7 @@ import (
 type Entity struct {
 	pName            string
 	lName            string
-	convertedLName   string
+	convertedPName   string
 	comment          string
 	tableOption      string
 	page             string
@@ -52,16 +52,23 @@ func NewEntity(section *ini.Section) *Entity {
 
 func (e *Entity) Convert(c *Config, conv *Convertor, dict *Dictionary) {
 	// テーブル名
-	e.convertedLName = conv.Logical2Physical(strings.Trim(e.lName, `"`), dict)
+	if convertedPName, ok := conv.Logical2Physical(strings.Trim(e.lName, `"`), dict); ok {
+		e.convertedPName = convertedPName
+	} else {
+		e.convertedPName = strings.Trim(e.pName, `"`)
+	}
 	if c.TablePlural {
-		e.convertedLName = c.PluralClient.Plural(e.convertedLName)
+		e.convertedPName = c.PluralClient.Plural(e.convertedPName)
 	}
 
 	// カラム名
 	fields := e.extractFields()
 	for _, field := range fields {
-		convertedFieldPhysicalName := conv.Logical2Physical(strings.Trim(field.logicalName, `"`), dict)
-		field.convertedPhysicalName = convertedFieldPhysicalName
+		if convertedFieldPhysicalName, ok := conv.Logical2Physical(strings.Trim(field.logicalName, `"`), dict); ok {
+			field.convertedPhysicalName = convertedFieldPhysicalName
+		} else {
+			field.convertedPhysicalName = strings.Trim(field.physicalName, `"`)
+		}
 		e.convertedField = append(e.convertedField, field.String())
 	}
 }
@@ -113,7 +120,7 @@ func clearEntitySectionKey(section *ini.Section) {
 }
 
 func (e *Entity) writeSectionKey(section *ini.Section) {
-	section.Key("PName").SetValue(e.convertedLName)
+	section.Key("PName").SetValue(e.convertedPName)
 	section.Key("LName").SetValue(e.lName)
 	section.Key("Comment").SetValue(e.comment)
 	section.Key("TableOption").SetValue(e.tableOption)
@@ -158,7 +165,11 @@ func convertRelationField(c *Config, field string, conv *Convertor, dict *Dictio
 	ss := strings.Split(strings.Trim(field, `"`), ",")
 	var convertedField []string
 	for _, s := range ss {
-		convertedField = append(convertedField, conv.Logical2Physical(s, dict))
+		if cf, ok := conv.Logical2Physical(s, dict); ok {
+			convertedField = append(convertedField, cf)
+		} else {
+			convertedField = append(convertedField, s)
+		}
 	}
 	return strings.Join(convertedField, ",")
 }
