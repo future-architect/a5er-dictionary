@@ -1,0 +1,6 @@
+名,name
+ID,id
+メール,mail
+アドレス,address
+注文,order
+日時,at

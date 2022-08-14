@@ -1,0 +1,99 @@
+﻿# A5:ER FORMAT:16
+# A5:ER ENCODING:UTF8
+# A5:ER Mk-1 Copyright © 2007 m.matsubara
+# A5:SQL Mk-2 Version 2.17.2 Copyright © 1997 - 2022 m.matsubara
+#  https://a5m2.mmatsubara.com
+
+[Manager]
+ProjectName=A5er-dictionary
+Author=Future
+MaxEntityRowShow=1000
+ReadOnlyRecommend=0
+Page=Main
+PageInfo="Main",2,"A3Landscape",$FFFFFF
+LogicalView=1
+DecodeDomain=0
+ViewModePageIndividually=1
+ViewMode=2
+ViewFormat=0
+UseNondependenceDashLine=0
+FontName=Tahoma
+FontSize=6
+PaperSize=A4Landscape
+HeaderLeft=
+HeaderCenter=
+HeaderRight=
+FooterLeft=
+FooterCenter=
+FooterRight=
+ShowPageoutRelation=1
+RDBMSType=6
+RDBMSTypeName=PostgreSQL
+DefaultPkName=%0:s_PKC
+DefaultPkIndexName=%0:s_PKI
+DefaultIndexName=%0:s_IX%1:d
+DefaultFkName=%0:s_FK%1:d
+SqlSeparator=0
+UpperCaseKeyword=0
+ShowTag=1
+ShowCommonAttributes=0
+BugFixEntityWidth=1
+
+[Entity]
+PName=ユーザー
+LName=ユーザー
+Comment=
+TableOption=
+Page=MAIN
+Left=480
+Top=360
+Field="ユーザーID","ユーザーID","@VARCHAR","NOT NULL",0,"","",$FFFFFFFF,""
+Field="ユーザー名","ユーザー名","@VARCHAR","NOT NULL",,"","",$FFFFFFFF,""
+Field="メールアドレス","メールアドレス","@VARCHAR","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220814160520
+Position="MAIN",480,360,193,153
+ZOrder=1
+
+[Entity]
+PName=注文
+LName=注文
+Comment=
+TableOption=
+Page=Main
+Left=900
+Top=360
+Field="注文ID","注文ID","@VARCHAR","NOT NULL",0,"","",$FFFFFFFF,""
+Field="ユーザー名","ユーザー名","@VARCHAR","NOT NULL",,"","",$FFFFFFFF,""
+Field="注文日時","注文日時","@VARCHAR","NOT NULL",,"","",$FFFFFFFF,""
+Field="ユーザーID","ユーザーID","@VARCHAR","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20220814160733
+Position="Main",900,360,198,150
+ZOrder=2
+
+[Relation]
+Entity1=ユーザー
+Entity2=注文
+RelationType1=2
+RelationType2=3
+Fields1=ユーザーID
+Fields2=ユーザーID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,2048,7952,2089,R,R,""
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20220814160754
+LineMode=0
+Bar1=205
+Bar2=795
+Bar3=209
+TermPos1=R
+TermPos2=R
+ZOrder=5

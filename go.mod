@@ -7,4 +7,7 @@ require (
 	gopkg.in/ini.v1 v1.66.6
 )
 
-require github.com/stretchr/testify v1.8.0 // indirect
+require (
+	github.com/google/go-cmp v0.5.8 // indirect
+	github.com/stretchr/testify v1.8.0 // indirect
+)
