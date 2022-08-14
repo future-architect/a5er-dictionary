@@ -79,3 +79,39 @@ func TestLogical2Physical(t *testing.T) {
 		})
 	}
 }
+
+func TestConvertor_IsConverted(t *testing.T) {
+	type args struct {
+		logicalName string
+		dict        *Dictionary
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{name: "match(a,i,u)", args: args{logicalName: "a_i_u", dict: &Dictionary{{"あ", "a"}, {"い", "i"}, {"う", "u"}}}, want: true},
+		{name: "match(a_i,u)", args: args{logicalName: "a_i_u", dict: &Dictionary{{"あい", "a_i"}, {"う", "u"}}}, want: true},
+		{name: "match(a,i_u)", args: args{logicalName: "a_i_u", dict: &Dictionary{{"あ", "a"}, {"いう", "i_u"}}}, want: true},
+		{name: "match(a_i_u)", args: args{logicalName: "a_i_u", dict: &Dictionary{{"あいう", "a_i_u"}}}, want: true},
+		{name: "match(one word)", args: args{logicalName: "a", dict: &Dictionary{{"あ", "a"}}}, want: true},
+		{name: "not match", args: args{logicalName: "a_i_u", dict: &Dictionary{}}, want: false},
+		{name: "not match", args: args{logicalName: "a_i_u", dict: &Dictionary{{"あ", "a"}}}, want: false},
+		{name: "not match", args: args{logicalName: "a_i_u", dict: &Dictionary{{"い", "i"}}}, want: false},
+		{name: "not match", args: args{logicalName: "a_i_u", dict: &Dictionary{{"う", "u"}}}, want: false},
+		{name: "not match", args: args{logicalName: "a_i_u", dict: &Dictionary{{"あ", "a"}, {"い", "i"}}}, want: false},
+		{name: "not match", args: args{logicalName: "a_i_u", dict: &Dictionary{{"あ", "a"}, {"う", "u"}}}, want: false},
+		{name: "not match", args: args{logicalName: "a_i_u", dict: &Dictionary{{"い", "i"}, {"う", "u"}}}, want: false},
+		{name: "not match", args: args{logicalName: "a_i_u", dict: &Dictionary{{"あい", "a_i"}}}, want: false},
+		{name: "not match", args: args{logicalName: "a_i_u", dict: &Dictionary{{"いう", "i_u"}}}, want: false},
+		{name: "not match", args: args{logicalName: "a_i_u", dict: &Dictionary{{"あいうえ", "a_i_u_e"}}}, want: false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := NewConvertor()
+			if got := c.IsConverted(tt.args.logicalName, tt.args.dict); got != tt.want {
+				t.Errorf("IsConverted() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

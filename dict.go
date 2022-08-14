@@ -55,3 +55,12 @@ func (d *Dictionary) sort() {
 		return utf8.RuneCountInString((*d)[i].Key) > utf8.RuneCountInString((*d)[j].Key)
 	})
 }
+
+func (d *Dictionary) containsValue(value string) bool {
+	for _, dd := range *d {
+		if value == dd.Value {
+			return true
+		}
+	}
+	return false
+}

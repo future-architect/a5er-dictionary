@@ -61,3 +61,23 @@ func (c *Convertor) Logical2Physical(logicalName string, dict *Dictionary) (stri
 
 	return strings.Join(converted, "_"), true
 }
+
+// IsConverted はlogicalNameがすでに論物変換済かどうか判定します
+func (c *Convertor) IsConverted(logicalName string, dict *Dictionary) bool {
+	ss := strings.Split(logicalName, "_")
+
+	startIdx := 0
+	lastIdx := len(ss)
+	// 論物変換はマッチング候補が複数ある場合はなるべく長い単語にマッチングする
+	// よって変換判定もなるべく長い値から順に辞書に登録されているか判定する
+	for 0 < lastIdx && startIdx < len(ss) && startIdx <= lastIdx {
+		v := strings.Join(ss[startIdx:lastIdx], "_")
+		if dict.containsValue(v) {
+			startIdx = lastIdx
+			lastIdx = len(ss)
+			continue
+		}
+		lastIdx--
+	}
+	return startIdx == len(ss)
+}

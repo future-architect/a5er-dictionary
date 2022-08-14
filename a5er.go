@@ -165,6 +165,10 @@ func convertRelationField(c *Config, field string, conv *Convertor, dict *Dictio
 	ss := strings.Split(strings.Trim(field, `"`), ",")
 	var convertedField []string
 	for _, s := range ss {
+		// すでに物理名に変換済のため論物変換しない
+		if conv.IsConverted(s, dict) {
+			continue
+		}
 		if cf, ok := conv.Logical2Physical(s, dict); ok {
 			convertedField = append(convertedField, cf)
 		} else {
