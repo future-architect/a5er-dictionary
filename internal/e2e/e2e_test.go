@@ -36,6 +36,12 @@ func TestExample(t *testing.T) {
 			dict: filepath.Join("testdata", "dict2.txt"),
 			want: filepath.Join("testdata", "want3.a5er"),
 		},
+		{
+			name: "ignore inline comment (; or #)",
+			in:   filepath.Join("testdata", "in4.a5er"),
+			dict: filepath.Join("testdata", "dict.txt"),
+			want: filepath.Join("testdata", "want4.a5er"),
+		},
 	}
 
 	for _, tt := range tests {
