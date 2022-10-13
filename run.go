@@ -20,9 +20,9 @@ func Run(ctx context.Context, c *Config) error {
 	// A5erファイルの読込
 	ini.PrettyFormat = false
 	opt := ini.LoadOptions{
-		SpaceBeforeInlineComment: true,
-		AllowShadows:             true,
-		AllowNonUniqueSections:   true,
+		IgnoreInlineComment:    true,
+		AllowShadows:           true,
+		AllowNonUniqueSections: true,
 	}
 	a5er, err := ini.LoadSources(opt, c.InputA5erFilePath)
 	if err != nil {
