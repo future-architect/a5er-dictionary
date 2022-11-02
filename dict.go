@@ -50,6 +50,13 @@ func (d *Dictionary) LoadCSV(filepath string) error {
 	return nil
 }
 
+func (d *Dictionary) LoadMap(words map[string]string) {
+	for key, value := range words {
+		*d = append(*d, &dict{key, value})
+	}
+	d.sort()
+}
+
 func (d *Dictionary) sort() {
 	sort.SliceStable(*d, func(i, j int) bool {
 		return utf8.RuneCountInString((*d)[i].Key) > utf8.RuneCountInString((*d)[j].Key)
